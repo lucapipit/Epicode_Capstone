@@ -1,0 +1,26 @@
+GET http://localhost:5050/posts/64c2550fc25403036e1f4112
+#####
+
+POST http://localhost:5050/posts HTTP/1.1
+Content-Type: application/json
+
+{ 
+    "title": "Primo post",
+    "subtitle": "il primo post non si scorda mai!",
+    "text": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+    "img": "https://www.ilgiardinodegliilluminati.it/wp-content/uploads/2019/02/significato-del-numero-3-tre.jpg",
+    "author": "64b681af6d4fd5149cf3c71c",
+    "comments": "",
+    "tags": ""
+}
+#####
+
+PATCH http://localhost:5050/posts/64c2550fc25403036e1f4112 HTTP/1.1
+Content-Type: application/json
+
+{ 
+    
+    "subtitle": "il Zrimo post non si scorda mai!"
+    
+}
+#####

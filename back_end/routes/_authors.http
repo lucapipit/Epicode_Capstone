@@ -1,0 +1,52 @@
+GET http://localhost:5050/authors?page=2&pageSize=5
+
+#####
+
+GET http://localhost:5050/authors/64b1145b2acca26d39178c6a
+
+#####
+
+POST http://localhost:5050/authors HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "Luca",
+    "surname": "Pipit",
+    "email": "lucap@gmail.com",
+    "password": "lamiapassword",
+    "dob": "01/01/1992",
+    "avatar": "lucaMP",
+    "authorImg": "https://www.vincenzocolabianchi.it/wp-content/uploads/2022/04/man-gd0ee87df6_1280.jpg"
+}
+
+#####
+
+PATCH http://localhost:5050/authors/64b12f0ca3e105aa55adc6bd HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "Giulia",
+    "surname": "De Sanctis",
+    "email": "giulia@gmail.com",
+    "dateOfBirth": "22/12/1989",
+    "avatar": "patat"
+}
+
+#####
+
+PUT http://localhost:5050/authors/64b12f0ca3e105aa55adc6bd HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "Giulia",
+    "surname": "De Sanctis",
+    "email": "giulia@gmail.com",
+    "dateOfBirth": "22/12/1989",
+    "avatar": "patat",
+    "authorImg": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8dXNlcnxlbnwwfHwwfHx8MA%3D%3D&w=1000&q=80"
+}
+
+#####
+
+DELETE http://localhost:5050/authors/64b7fb99b00b60649658688e
+

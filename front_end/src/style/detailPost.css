@@ -1,0 +1,86 @@
+.myBgDetailImg {
+    height: 350px;
+    background-size: cover;
+    background-position: center;
+    filter: blur(5px);
+}
+
+h1 {
+    color: #494949;
+    font-weight: lighter !important;
+    border-left: 5px solid #14a7ad;
+}
+
+.myBody>p:first-child {
+    font-size: 1.6rem;
+    font-weight: lighter;
+    font-style: italic;
+}
+
+article {
+    font-size: 1.3rem;
+}
+
+.drop-cap::first-letter {
+    -webkit-initial-letter: 4;
+    initial-letter: 4;
+    color: #14a7ad;
+    font-weight: 400;
+    margin-right: .75em;
+}
+
+.categorySymbol {
+    font-size: 3.5rem;
+    position: absolute;
+    top: 365px;
+    margin-left: 20px;
+}
+
+.modifyPostSymbol>i {
+    font-size: 1.4rem;
+    cursor: pointer;
+    z-index: 8;
+}
+
+.modifyPostSymbol>i:hover {
+    transform: translateY(1px);
+    transition: .2s ease-in-out .1s;
+}
+
+/* edit modal */
+
+.myEditModal {
+    top: 15px;
+    height: 97vh;
+    width: 98vw;
+    z-index: 9;
+    /* .modifyPostSymbol => zIndex: 8 */
+    box-shadow: 4px 4px 20px rgb(139, 139, 139);
+    overflow-y: scroll;
+    border-top: 15px solid rgb(248, 249, 250);
+}
+.mainImage > img {
+    max-height: 400px;
+}
+
+@media only screen and (max-width: 500px) {
+    .mainImage > img {
+        max-height: 250px;
+    }
+}
+
+
+
+.charCounter>i:first-child {
+    font-size: 1.2rem;
+}
+
+.myEditModal>div:first-child {
+    background-color: rgb(248, 249, 250);
+    border-bottom-right-radius: 20px;
+    cursor: pointer;
+}
+
+.myEditModal>div:first-child>i {
+    top: 7.8%;
+}

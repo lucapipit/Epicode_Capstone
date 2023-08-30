@@ -1,0 +1,277 @@
+/* Navbar */
+.myNav {
+  z-index: 11;
+  height: 57px;
+}
+
+.myNavSpacer {
+  height: 57px;
+}
+
+.myAsideMenu{
+  height: 100vh;
+  width: 50vw;
+  background-color: #fff;
+  z-index: 10;
+  box-shadow: 3px 3px 15px rgb(209, 209, 209);
+  padding: 75px 20px 25px 20px;
+}
+.myMainMenu{
+  height: 50vh;
+  width: 100vw;
+  background-color: #fff;
+  z-index: 10;
+  box-shadow: 3px 3px 15px rgb(209, 209, 209);
+  padding: 75px 20px 25px 20px;
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
+}
+.myMainMenu .singleBox{
+  border: 1px solid rgb(209, 209, 209);
+  box-shadow: 2px 2px 6px rgb(209, 209, 209);
+  border-radius: 10px;
+  padding: 10px 20px;
+}
+.bi-grid-fill{
+  cursor: pointer;
+  font-size: 25px;
+}
+
+/* Route Link */
+.myLink {
+  text-decoration: none !important;
+  max-width: 400px !important;
+  min-width: 300px !important;
+}
+
+/* bootstrap icons */
+i {
+  margin-right: 8px;
+}
+
+i.bi-x-circle {
+  cursor: pointer;
+}
+
+/* bootstrap icons category */
+.bi-activity {
+  /* cardiology */
+  color: rgb(255, 111, 0);
+}
+
+.bi-shield-fill-exclamation {
+  /* immunology */
+  color: rgb(38, 162, 250);
+}
+
+.bi-bandaid-fill {
+  /* pediatrics */
+  color: rgb(255, 161, 242);
+}
+
+.bi-radioactive {
+  /* radiology */
+  color: rgb(207, 186, 0);
+}
+
+.bi-fingerprint {
+  /* biotecnology */
+  color: #8c14ad;
+}
+.bi-basket2-fill{
+  /* dietology */
+  color: #0a854f;
+}
+
+/* bootstrap icons welcome hours */
+.bi-moon-fill {
+  color: #0c5778;
+}
+
+.bi-brightness-alt-high-fill {
+  color: #e98400;
+}
+
+.bi-brightness-high-fill {
+  color: #a59414;
+}
+
+/* posts */
+.myPostCard {
+  max-width: 400px !important;
+  min-width: 300px !important;
+  border-radius: 0px !important;
+  padding: 0px !important;
+}
+
+.myPostCard:hover {
+  cursor: pointer;
+  box-shadow: 3px 3px 15px rgb(209, 209, 209);
+  transform: translateY(-3px);
+  transition: 250ms ease-in-out 100ms;
+}
+
+.myPostCard>.myBgImage {
+  height: 300px !important;
+  background-size: cover !important;
+  background-position: center !important;
+  overflow: hidden !important;
+}
+
+.myPostTitle {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: rgb(72, 72, 72);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.mySubtitle {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  overflow: hidden;
+}
+
+.myCategorySymbol {
+  font-size: 1.3rem;
+  position: absolute;
+  top: 283px;
+  background: rgb(255, 255, 255);
+  padding: 2px 5px !important;
+  border-radius: 30px;
+}
+
+.myCategorySymbol i {
+  margin: 0 3px !important;
+}
+
+/* author image */
+.myAuthorImg-sm {
+  height: 30px;
+  width: 30px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 15px;
+  cursor: pointer;
+}
+
+.myAuthorImg-md {
+  height: 50px;
+  width: 50px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 25px
+}
+
+/* homepage title post section */
+.myTitles {
+  font-weight: 300;
+  border-left: 5px solid #14a7ad;
+}
+
+/* homepage user detail info */
+.detailUserBar {
+  border-bottom: 1px solid #d5d5d5;
+  background-color: #eaeaea;
+  border-bottom-left-radius: 7px;
+  border-bottom-right-radius: 7px;
+  padding: 0 10px;
+  font-weight: 400;
+}
+
+.detailUserBar .logout_bar {
+  cursor: pointer;
+}
+
+.detailUserBar .logout_bar:hover {
+  color: rgb(85, 0, 0) !important;
+  transition: color .2s ease-in-out .1s;
+}
+
+.providerIcon {
+  height: 13px;
+}
+
+/* content tool bar */
+.contentToolBar {
+  background-color: #eaeaea;
+  border: 1px solid #d5d5d5;
+}
+
+.contentToolBar>.myLink {
+  background-color: #fff;
+  border: 1px solid #d5d5d5;
+  box-shadow: 1px 1px 2px #c8c8c8;
+}
+
+.contentToolBar>.myLink:hover {
+  transform: translateY(2px);
+  transition: .2s ease-in-out .1s;
+  box-shadow: 2px 2px 6px #989898;
+}
+
+/* LogIn Page */
+.myLogInForm {
+  height: 92vh;
+  background-size: cover !important;
+  background-position: right !important;
+}
+
+.myLogInForm>div {
+  width: 70%;
+  height: 60vh;
+  background-color: rgba(248, 248, 248, 0.961);
+  border-radius: 10px;
+  z-index: 9;
+}
+
+.myLogInForm input {
+  margin-top: 20px;
+  border-radius: 5px;
+  border: 1px solid rgb(195, 195, 195);
+  padding: 5px 10px
+}
+
+.githubImg {
+  height: 20px;
+}
+
+.myFailedLogin{
+  animation: 3s infinite loginFailed;
+  animation-timing-function: ease-in-out;
+}
+
+@keyframes loginFailed {
+  0%{
+    transform: translate(0);
+  }
+  50%{
+    transform: translateY(3px);
+  }
+  100%{
+    transform: translate(0);
+  }
+}
+
+/* SignIn page */
+.mySignInForm {
+  background-size: cover !important;
+  background-position: right !important;
+}
+
+.mySignInForm>div {
+  width: 70%;
+  background-color: rgba(248, 248, 248, 0.961);
+  border-radius: 10px;
+  z-index: 9;
+}
+
+.mySignInForm input {
+  margin-top: 20px;
+  border-radius: 5px;
+  border: 1px solid rgb(195, 195, 195);
+  padding: 5px 10px
+}
