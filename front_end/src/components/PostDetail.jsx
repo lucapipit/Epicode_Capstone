@@ -16,12 +16,21 @@ const PostDetail = ({ id, title, subtitle, img, text, authorObj, createdAt, upda
     const isEditModalOpen = useSelector((state) => state.posts.isModalOpen);
     const userAuthorId = useSelector((state) => state.authors.author_id);
 
+    const categoryIcons = {
+        cardiology: 'activity',
+        immunology: 'shield-fill-exclamation',
+        pediatrics: 'bandaid-fill',
+        radiology: 'radioactive',
+        biotechnology: 'fingerprint',
+        dietology: 'basket2-fill'
+    };
 
     useEffect(() => {
         console.log(authorObj)
         dispatch(getUserDatafromToken());
         if (isEditModalOpen) { document.body.style.overflow = 'hidden' } else { document.body.style.overflow = 'scroll' };/* to avoid page scrool when the edit modal is opened */
     }, [isEditModalOpen, userAuthorId])
+
     return (
         <>
             <Container fluid>
@@ -35,15 +44,7 @@ const PostDetail = ({ id, title, subtitle, img, text, authorObj, createdAt, upda
                         {<span className='categorySymbol'>
                             {//return all category icons
                                 category && category.map((el) => {
-                                    switch (el) {
-                                        case "cardiology": return <i key={nanoid()} class="bi bi-activity"></i>;
-                                        case "immunology": return <i key={nanoid()} class="bi bi-shield-fill-exclamation"></i>;
-                                        case "pediatrics": return <i key={nanoid()} class="bi bi-bandaid-fill"></i>;
-                                        case "radiology": return <i key={nanoid()} class="bi bi-radioactive"></i>;
-                                        case "biotechnology": return <i key={nanoid()} class="bi bi-fingerprint"></i>;
-                                        case "dietology": return <i key={nanoid()} class="bi bi-basket2-fill"></i>;
-                                        default: return null;
-                                    }
+                                    return <i key={nanoid()} className={`bi bi-${categoryIcons[el]}`}></i>
                                 })
                             }
                         </span>}

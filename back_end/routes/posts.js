@@ -39,6 +39,7 @@ router.post("/posts/internalUpload", uploads.single("img"), async (req, res) => 
 
 //GET ALL
 router.get("/posts", async (req, res) => {
+    
     try {
         console.log(req.header("Authorization"));
         const allPosts = await postModel.find().sort({ createdAt: 'desc' })
@@ -73,7 +74,27 @@ router.get("/posts/:id", async (req, res) => {
     } catch (error) {
         res.status(404).send({
             statusCode: 404,
-            message: "nessun post trovato!"
+            message: "nessun zost trovato!"
+        })
+    }
+})
+
+//GET ALL POSTS BY CATEGORY
+router.get("/filter", async (req, res) => {
+    const {cardiology, immunology, radiology, biotechnology, dietology, pediatrics} = req.query;
+   
+    console.log(req.query);
+    try {
+        const filteredPosts = await postModel.find({ tags: {$in: [cardiology, immunology, radiology, biotechnology, dietology, pediatrics]} })
+            .populate("author");
+        res.status(200).send({
+            statusCode: 200,
+            payload: filteredPosts
+        })
+    } catch (error) {
+        res.status(404).send({
+            statusCode: 404,
+            message: "nessun tost trovato!"
         })
     }
 })
@@ -107,7 +128,7 @@ router.patch("/posts/:id", async (req, res) => {
     const options = { new: true };
 
     const isValid = await postModel.findById(id);
-    
+
     const updatedPost = await postModel.findByIdAndUpdate(
         id,
         myChanges,

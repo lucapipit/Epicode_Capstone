@@ -18,6 +18,15 @@ const AddPostForm = () => {
     const [subtitle, setSubtitle] = useState("");
     const [text, setText] = useState("");
 
+    //category variable obj
+    const categoryIcons = {
+        cardiology: 'activity',
+        immunology: 'shield-fill-exclamation',
+        pediatrics: 'bandaid-fill',
+        radiology: 'radioactive',
+        biotechnology: 'fingerprint',
+        dietology: 'basket2-fill'
+    };
 
     //redux
     const dispatch = useDispatch();
@@ -119,14 +128,7 @@ const AddPostForm = () => {
                     </DropdownButton>
                     <div className='d-flex ms-3'>
                         {categories.map((el) => {
-                            switch (el) {
-                                case "cardiology": return <i key={nanoid()} class="bi bi-activity"></i>;
-                                case "immunology": return <i key={nanoid()} class="bi bi-shield-fill-exclamation"></i>;
-                                case "pediatrics": return <i key={nanoid()} class="bi bi-bandaid-fill"></i>;
-                                case "radiology": return <i key={nanoid()} class="bi bi-radioactive"></i>;
-                                case "biotechnology": return <i key={nanoid()} class="bi bi-fingerprint"></i>;
-                                case "dietology": return <i key={nanoid()} class="bi bi-basket2-fill"></i>;
-                            }
+                            return <i key={nanoid()} className={`bi bi-${categoryIcons[el]}`}></i>
                         })}
                         {
                             categories.length > 0 ? <i class="bi bi-x-circle text-danger" onClick={() => dispatch(clearCategories())}> clear</i> : null

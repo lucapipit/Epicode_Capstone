@@ -17,7 +17,7 @@
   padding: 75px 20px 25px 20px;
 }
 .myMainMenu{
-  height: 50vh;
+  min-height: 50vh;
   width: 100vw;
   background-color: #fff;
   z-index: 10;
@@ -28,10 +28,25 @@
 }
 .myMainMenu .singleBox{
   border: 1px solid rgb(209, 209, 209);
-  box-shadow: 2px 2px 6px rgb(209, 209, 209);
-  border-radius: 10px;
+  box-shadow: 1px 1px 3px rgb(225, 225, 225);
+  box-shadow: 1px 1px 3px rgb(209, 209, 209);
+  border-radius: 30px;
   padding: 10px 20px;
 }
+.myMainMenu .singleBox:hover{
+  transform: translateY(-1px);
+  box-shadow: 0px 0px 0px rgb(209, 209, 209);
+  border: 1px solid rgb(234, 234, 234);
+  transition: .15s ease-in-out .1s;
+}
+.myMainMenu .boxSelected{
+  color: red;
+  border: 1px solid #00acb1!important;
+  transform: translateY(-1px);
+  box-shadow: 0px 0px 0px rgb(209, 209, 209);
+  /* transition: .2s ease-in-out .1s; */
+}
+
 .bi-grid-fill{
   cursor: pointer;
   font-size: 25px;

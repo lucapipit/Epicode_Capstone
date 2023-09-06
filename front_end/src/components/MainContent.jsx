@@ -10,6 +10,7 @@ import { nanoid } from '@reduxjs/toolkit';
 import jwtDecode from 'jwt-decode';
 import githubIcon from "../assets/github-mark.png";
 import googleIcon from "../assets/googleIcon.png";
+import SearchEngine from './SearchEngine';
 
 
 const MainContent = () => {
@@ -50,8 +51,10 @@ const MainContent = () => {
     const [active, setActive] = useState(1);
     const [pages, setPages] = useState(null);
 
+    const myFilter = useSelector((state) => state.posts.filteredPosts);
+    
     const allAuthors = useSelector((state) => state.authors.allAuthors);
-    const allPosts = useSelector((state) => state.posts.allPosts)
+    
 
     const pagination = () => {
         let items = [];
@@ -70,6 +73,7 @@ const MainContent = () => {
     }
 
     useEffect(() => {
+        
         getUserData();
         dispatch(getAllAuthorsFunc());
         dispatch(getAllPostsFunc());
@@ -90,6 +94,8 @@ const MainContent = () => {
                 </div>
             </div> : null}
 
+            <SearchEngine/>
+
             <h2 className='mt-3 ps-1 myTitles'>Medical News</h2>
 
             <div className="contentToolBar py-2 px-3 rounded-5">
@@ -97,9 +103,9 @@ const MainContent = () => {
                     <i class="bi bi-plus-lg me-2"> Add Post</i>
                 </Link>
             </div>
-            <div className='row mt-3 justify-content-center'>
+            <div className='row mt-3 justify-content-center' id="search-node">
                 {
-                    allPosts && allPosts.map((el) => {
+                        myFilter && myFilter.map((el) => {
                         return <PostCard
                             key={nanoid()}
                             id={el._id}
@@ -108,9 +114,9 @@ const MainContent = () => {
                             category={el.tags}
                             subtitle={el.subtitle}
                             text={el.text}
-                            authorName={el.author.name}
-                            authorSurname={el.author.surname}
-                            authorImg={el.author.authorImg}
+                            authorName={el.author.name }
+                            authorSurname={el.author.surname }
+                            authorImg={el.author.authorImg }
                         />
                     })
                 }

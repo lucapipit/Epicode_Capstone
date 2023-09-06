@@ -53,7 +53,7 @@ article {
     top: 15px;
     height: 97vh;
     width: 98vw;
-    z-index: 9;
+    z-index: 11;
     /* .modifyPostSymbol => zIndex: 8 */
     box-shadow: 4px 4px 20px rgb(139, 139, 139);
     overflow-y: scroll;
