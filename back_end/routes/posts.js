@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const router = express.Router();
 const postModel = require("../models/postModel");
+const reviewModel = require("../models/reviewModel");
 //multer e cloudinary imports
 const multer = require("multer");
 const cloudinary = require("cloudinary").v2;
@@ -39,16 +40,30 @@ router.post("/posts/internalUpload", uploads.single("img"), async (req, res) => 
 
 //GET ALL
 router.get("/posts", async (req, res) => {
-    
+
+    const { page = 1, pageSize = 2, search = "" } = req.query;
+
     try {
         console.log(req.header("Authorization"));
+        const postsCount = await postModel.count();
+
+        const allPostsPaged = await postModel.find().sort({ createdAt: 'desc' })
+            .limit(pageSize)
+            .skip((page - 1) * pageSize)
+            .populate("author")
+            .populate("comments")
+            .populate("reviews");
         const allPosts = await postModel.find().sort({ createdAt: 'desc' })
             .populate("author")
             .populate("comments")
+            .populate("reviews");
 
         res.status(200).send({
             statusCode: 200,
-            payload: allPosts
+            pageSize: pageSize,
+            postsCount: postsCount,
+            payload: allPosts,
+            payloadPaged: allPostsPaged
         })
     } catch (error) {
         res.status(404).send({
@@ -62,14 +77,20 @@ router.get("/posts", async (req, res) => {
 router.get("/posts/:id", async (req, res) => {
     const { id } = req.params;
     try {
-        console.log(req.header("Authorization"));
+        const reviews = await reviewModel.find({postId: id})
+            .populate("author");
+
+        /* console.log(req.header("Authorization")); */
         const singlePost = await postModel.findById(id)
             .populate("author")
             .populate("comments")
+            .populate("reviews");
+
+            console.log(reviews, singlePost);
 
         res.status(200).send({
             statusCode: 200,
-            payload: singlePost
+            payload:{singlePost, reviews}
         })
     } catch (error) {
         res.status(404).send({
@@ -81,11 +102,11 @@ router.get("/posts/:id", async (req, res) => {
 
 //GET ALL POSTS BY CATEGORY
 router.get("/filter", async (req, res) => {
-    const {cardiology, immunology, radiology, biotechnology, dietology, pediatrics} = req.query;
-   
+    const { cardiology, immunology, radiology, biotechnology, dietology, pediatrics } = req.query;
+
     console.log(req.query);
     try {
-        const filteredPosts = await postModel.find({ tags: {$in: [cardiology, immunology, radiology, biotechnology, dietology, pediatrics]} })
+        const filteredPosts = await postModel.find({ tags: { $in: [cardiology, immunology, radiology, biotechnology, dietology, pediatrics] } })
             .populate("author");
         res.status(200).send({
             statusCode: 200,
@@ -123,7 +144,7 @@ router.post("/posts", async (req, res) => {
 //UPDATE a post
 router.patch("/posts/:id", async (req, res) => {
     const { id } = req.params;
-
+    console.log(req.body);
     const myChanges = req.body;
     const options = { new: true };
 
@@ -132,6 +153,27 @@ router.patch("/posts/:id", async (req, res) => {
     const updatedPost = await postModel.findByIdAndUpdate(
         id,
         myChanges,
+        options
+    );
+
+    res.status(202).send({
+        statusCode: 202,
+        updatedPost
+    })
+});
+
+//UPDATE the review array inside post
+router.patch("/posts/review/:id", async (req, res) => {
+    const { id } = req.params;
+    console.log(req.body);
+    const myChanges = req.body;
+    const options = { new: true };
+
+    const isValid = await postModel.findById(id);
+
+    const updatedPost = await postModel.findByIdAndUpdate(
+        id,
+        { $push: myChanges },
         options
     );
 

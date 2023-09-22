@@ -16,6 +16,8 @@ const commentRouter = require("./routes/comments")
 const githubRoute = require("./routes/githubOauth");
 const googleRoute = require("./routes/googleOauth");
 const facebookRoute = require("./routes/facebookOauth");
+const emailRoute = require("./routes/email");
+const reviewsRoute = require("./routes/reviews")
 const logger = require("./middlewares/logger");
 
 //middleware
@@ -31,6 +33,8 @@ app.use("/", commentRouter);
 app.use("/", githubRoute);
 app.use("/", googleRoute);
 app.use("/", facebookRoute);
+app.use("/", emailRoute);
+app.use("/", reviewsRoute);
 
 
 

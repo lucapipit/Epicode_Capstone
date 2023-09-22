@@ -11,25 +11,27 @@ const SinglePost = () => {
     const dispatch = useDispatch();
     const singlePost = useSelector((state) => state.posts.singlePost);
     useEffect(() => {
+        console.log(singlePost);
         dispatch(getPostByIdFunc(id))
     }, []);
-    /* console.log(singlePost); */
     return (
         <>
             <MainLayout>
                 {singlePost && <PostDetail
                     key={nanoid()}
                     id={id}
-                    title={singlePost.title}
-                    subtitle={singlePost.subtitle}
-                    text={singlePost.text}
-                    img={singlePost.img}
-                    authorObj={singlePost.author}
-                    createdAt={singlePost.createdAt}
-                    updatedAt={singlePost.updatedAt}
-                    category={singlePost.tags}
+                    title={singlePost.singlePost.title}
+                    subtitle={singlePost.singlePost.subtitle}
+                    text={singlePost.singlePost.text}
+                    img={singlePost.singlePost.img}
+                    authorObj={singlePost.singlePost.author}
+                    createdAt={singlePost.singlePost.createdAt}
+                    updatedAt={singlePost.singlePost.updatedAt}
+                    category={singlePost.singlePost.tags}
+                    reviews={singlePost.reviews}
                 />}
             </MainLayout>
+            <h1>ciao</h1>
         </>
     )
 }

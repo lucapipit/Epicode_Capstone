@@ -1,19 +1,17 @@
 import React from 'react';
-import Card from 'react-bootstrap/Card';
 
-const AuthorCard = ({ avatar, dateOfBirth, email, name, surname, authorImg }) => {
+const AuthorCard = ({ dateOfBirth, email, name, surname, authorImg }) => {
   return (
-    <Card body className='m-1'>
+    <div className='m-1 myAuthorCard p-3 rounded-4'>
       <div className='d-flex'>
-        <div className='myAuthorImg-md' style={{ backgroundImage: `url(${authorImg})` }}>
-        </div>
+        <div className='myAuthorImg-md' style={{ backgroundImage: `url(${authorImg})`}}></div>
 
         <div className='ms-4'>
-          <div><i className='text-primary'>{name} {surname}</i> - {email}</div>
-          <div>{name} {surname} <i>nato/a il</i> {dateOfBirth}</div>
+          <p><i className='text-primary'>{name} {surname}</i> - {email}</p>
+          <p>{name} {surname} <i>nato/a il</i> {dateOfBirth}</p>
         </div>
       </div>
-    </Card>
+    </div>
   )
 }
 

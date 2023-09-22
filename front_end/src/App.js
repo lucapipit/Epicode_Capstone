@@ -8,15 +8,15 @@ import AddPost from './pages/AddPost';
 import { ProtectedRoutes } from './middlewares/ProtectedRoutes';
 import SinglePost from './pages/SinglePost';
 import Success from './pages/Success';
+import ScrollToTop from './components/ScrollToTop';
 
 function App() {
   const baseUrl = process.env.REACT_APP_URL;
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Routes>
-
         <Route exact path='/' element={<Homepage />} />
-
         <Route path='/logIn' element={<LogIn />} />
         <Route path='/signin' element={<SignIn />} />
         <Route path='/success' element={<Success />} />

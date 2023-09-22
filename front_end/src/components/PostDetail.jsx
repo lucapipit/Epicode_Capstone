@@ -8,13 +8,22 @@ import EditPostModal from './EditPostModal';
 import { toogleOpenModal } from "../states/postStates";
 import { getUserDatafromToken } from "../states/authorState";
 import { useDispatch, useSelector } from 'react-redux';
+import Form from 'react-bootstrap/Form';
+import InputGroup from 'react-bootstrap/InputGroup';
+import { Button } from 'react-bootstrap';
+import feather from "../assets/feather.svg";
+import { useNavigate } from 'react-router';
 
-const PostDetail = ({ id, title, subtitle, img, text, authorObj, createdAt, updatedAt, category }) => {
-    const apiUrl = process.env.REACT_APP_SERVERBASE_URL;
-
+const PostDetail = ({ id, title, subtitle, img, text, authorObj, createdAt, updatedAt, category, reviews }) => {//authorObj è l'autore del post
+    
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
     const isEditModalOpen = useSelector((state) => state.posts.isModalOpen);
-    const userAuthorId = useSelector((state) => state.authors.author_id);
+    const userAuthorId = useSelector((state) => state.authors.author_id);//autore loggato
+    const [reviewText, setReviewText] = useState("");
+    const [reviewTitle, setReviewTitle] = useState("");
+    const [reviewId, setReviewId] = useState("");
 
     const categoryIcons = {
         cardiology: 'activity',
@@ -25,15 +34,72 @@ const PostDetail = ({ id, title, subtitle, img, text, authorObj, createdAt, upda
         dietology: 'basket2-fill'
     };
 
+    const submitReview = async () => {
+        const payload = {
+            title: reviewTitle,
+            text: reviewText,
+            postId: id,
+            author: userAuthorId
+        };
+        const apiUrl = `${process.env.REACT_APP_SERVERBASE_URL}/reviews`;
+
+        const response = await fetch(apiUrl, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": localStorage.getItem("loginData")
+            },
+            body: JSON.stringify(payload)
+        });
+        const res = await response.json();
+        setReviewId(res.reviewId);
+        console.log(reviewId);
+        return res
+    };
+
+    const populatePostWithReviews = async (input) => {
+        const apiUrl = `${process.env.REACT_APP_SERVERBASE_URL}/posts/review/${input}`;
+        const payload = {
+            reviews: reviewId
+        };
+        const response = await fetch(apiUrl, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": localStorage.getItem("loginData")
+            },
+            body: JSON.stringify(payload)
+        });
+        return await response.json();
+    };
+
+    const resetForm = () => {
+        setTimeout(() => {
+            setReviewText("");
+            setReviewTitle("")
+        }, 500);
+
+        setTimeout(() => {
+            navigate(0)
+        }, 2000);
+    }
+
+
     useEffect(() => {
-        console.log(authorObj)
         dispatch(getUserDatafromToken());
         if (isEditModalOpen) { document.body.style.overflow = 'hidden' } else { document.body.style.overflow = 'scroll' };/* to avoid page scrool when the edit modal is opened */
-    }, [isEditModalOpen, userAuthorId])
+    }, [isEditModalOpen, userAuthorId]);
+
+    useEffect(() => {
+        if (reviewId) {
+
+            populatePostWithReviews(id)
+        }
+    }, [reviewId])
 
     return (
         <>
-            <Container fluid>
+            <Container fluid="true">
                 <Row>
                     <div className='myBgDetailImg' style={{ backgroundImage: `url("${process.env.REACT_APP_SERVERBASE_URL}/uploads/${img}")` }}></div>
                 </Row>
@@ -56,10 +122,14 @@ const PostDetail = ({ id, title, subtitle, img, text, authorObj, createdAt, upda
                             authorObj ?
                                 (authorObj._id === userAuthorId ?
                                     <span className='modifyPostSymbol mt-1 d-flex justify-content-end'>
-                                        <i class="bi bi-pencil-fill text-secondary ms-3" onClick={() => dispatch(toogleOpenModal(true))}></i>
-                                        <i class="bi bi-trash-fill text-danger ms-3"></i>
+                                        <i className="bi bi-pencil-fill text-secondary ms-3" onClick={() => dispatch(toogleOpenModal(true))}></i>
+                                        <i className="bi bi-trash-fill text-danger ms-3"></i>
                                     </span>
-                                    : <div className='mt-5'></div>)
+                                    :
+                                    <span className='modifyPostSymbol mt-1 d-flex justify-content-end align-items-center'>
+                                        <div className='mb-1 me-3 d-flex align-items-center justify-content-end'><i className='ms-2 text-dark truncate-sm'>{authorObj.name} {authorObj.surname}</i><div className='myAuthorImg-sm' style={{ backgroundImage: `url(${authorObj.authorImg})`}}></div></div>
+                                        <a href="#review"><img src={feather} alt="svg" style={{height: "26px"}} /></a>
+                                    </span>)
                                 : null
                         }
 
@@ -77,6 +147,41 @@ const PostDetail = ({ id, title, subtitle, img, text, authorObj, createdAt, upda
                             <hr />
                             <article className='drop-cap mb-4'>{text}</article>
                         </div>
+
+                        <hr />
+                        {
+                            reviews && reviews.map((el) => {
+                                return (
+                                    <div>
+                                        <div className='mb-1 d-flex align-items-center justify-content-end'><img src={feather} alt="svg" style={{height: "22px"}} /><i className='ms-2 text-dark'>{el.author.name} {el.author.surname}</i><div className='myAuthorImg-sm' style={{ backgroundImage: `url(${el.author.authorImg})`}}></div></div>
+                                        <h1 className='p-3 mt-1 ms-4'>{el.title}</h1>
+                                        <div className="myBody px-4">
+                                            <p>{el.subtitle}</p>
+                                            <article className='mb-4'>{el.text}</article>
+                                        </div>
+                                        <hr />
+                                    </div>
+
+                                )
+                            })
+                        }
+
+
+                        <h2 className='fw-light mt-5' id='review'><i className='bi bi-blockquote-left text-success'> Submit a review and wait for the author to accept</i></h2>
+
+                        <InputGroup className='mt-3'>
+                            <InputGroup.Text id="inputGroup-sizing-default">Title</InputGroup.Text>
+                            <Form.Control maxLength={150} value={reviewTitle} onChange={(e) => { setReviewTitle(e.target.value) }} />
+                        </InputGroup>
+                        <InputGroup className='mt-3' >
+                            <InputGroup.Text id="inputGroup-sizing-default">Text</InputGroup.Text>
+                            <Form.Control maxLength={6000} as="textarea" rows={20} value={reviewText} onChange={(e) => { setReviewText(e.target.value) }} />
+                        </InputGroup>
+                        <div className='mb-3 charCounter d-flex align-items-center'>
+                            <i className="bi bi-fonts"></i>
+                            <i>{reviewText.length + "/6000 characters"}</i>
+                        </div>
+                        <Button className='mb-5' onClick={() => { submitReview(); resetForm() }}><i className="bi bi-send-fill me-2"></i>Submit</Button>
                     </Col>
                 </Row>
             </Container>

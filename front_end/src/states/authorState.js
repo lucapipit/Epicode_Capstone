@@ -7,7 +7,8 @@ const initialState = {
     error: "api call has been rejected",
     currentPage: 1,
     author_id: "",
-    authorDataTkn: ""
+    authorDataTkn: "",
+    firstAccessData: {}
 };
 
 const getAllAuthorsFunc = createAsyncThunk(
@@ -49,6 +50,10 @@ const authorSlice = createSlice({
                 }
             }
             return
+        },
+        saveFirstAccessData: (state, action) => {
+            console.log("ho settato i dati di accesso");
+            state.firstAccessData = action.payload
         }
     },
     extraReducers: (builder) => {
@@ -66,6 +71,6 @@ const authorSlice = createSlice({
     }
 });
 
-export const { setIsLoading, setCurrentPage, saveAuthor_id, getUserDatafromToken } = authorSlice.actions;
+export const { setIsLoading, setCurrentPage, saveAuthor_id, getUserDatafromToken, saveFirstAccessData } = authorSlice.actions;
 export default authorSlice.reducer;
 export { getAllAuthorsFunc }

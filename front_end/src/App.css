@@ -8,7 +8,7 @@
   height: 57px;
 }
 
-.myAsideMenu{
+.myAsideMenu {
   height: 100vh;
   width: 50vw;
   background-color: #fff;
@@ -16,7 +16,8 @@
   box-shadow: 3px 3px 15px rgb(209, 209, 209);
   padding: 75px 20px 25px 20px;
 }
-.myMainMenu{
+
+.myMainMenu {
   min-height: 50vh;
   width: 100vw;
   background-color: #fff;
@@ -26,31 +27,56 @@
   border-bottom-left-radius: 30px;
   border-bottom-right-radius: 30px;
 }
-.myMainMenu .singleBox{
+
+.myMainMenu .singleBox {
   border: 1px solid rgb(209, 209, 209);
   box-shadow: 1px 1px 3px rgb(225, 225, 225);
   box-shadow: 1px 1px 3px rgb(209, 209, 209);
   border-radius: 30px;
   padding: 10px 20px;
 }
-.myMainMenu .singleBox:hover{
+
+.myMainMenu .singleBox:hover {
   transform: translateY(-1px);
   box-shadow: 0px 0px 0px rgb(209, 209, 209);
   border: 1px solid rgb(234, 234, 234);
   transition: .15s ease-in-out .1s;
 }
-.myMainMenu .boxSelected{
-  color: red;
-  border: 1px solid #00acb1!important;
+
+.myMainMenu .boxSelected {
+  border: 1px solid #00acb1 !important;
   transform: translateY(-1px);
   box-shadow: 0px 0px 0px rgb(209, 209, 209);
   /* transition: .2s ease-in-out .1s; */
 }
 
-.bi-grid-fill{
+.bi-grid-fill,
+.bi-columns-gap,
+.bi-x-lg {
   cursor: pointer;
   font-size: 25px;
 }
+.truncate-lg {
+  min-width: 240px;
+  max-width: 500px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.truncate-md {
+  width: 90px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.truncate-sm {
+  min-width: 70px;
+  max-width: 120px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 
 /* Route Link */
 .myLink {
@@ -93,7 +119,8 @@ i.bi-x-circle {
   /* biotecnology */
   color: #8c14ad;
 }
-.bi-basket2-fill{
+
+.bi-basket2-fill {
   /* dietology */
   color: #0a854f;
 }
@@ -108,7 +135,7 @@ i.bi-x-circle {
 }
 
 .bi-brightness-high-fill {
-  color: #a59414;
+  color: #c6b118;
 }
 
 /* posts */
@@ -212,20 +239,33 @@ i.bi-x-circle {
 
 /* content tool bar */
 .contentToolBar {
-  background-color: #eaeaea;
-  border: 1px solid #d5d5d5;
+  background-color: #efeeee;
+  border: 1px solid #dbdbdb;
 }
 
 .contentToolBar>.myLink {
   background-color: #fff;
-  border: 1px solid #d5d5d5;
+  border: 1px solid #dbdbdb;
   box-shadow: 1px 1px 2px #c8c8c8;
+  min-width: 100px !important;
+  ;
 }
 
 .contentToolBar>.myLink:hover {
-  transform: translateY(2px);
+  transform: translateY(1px);
   transition: .2s ease-in-out .1s;
-  box-shadow: 2px 2px 6px #989898;
+  box-shadow: 2px 2px 4px #989898;
+}
+
+.contentToolBar>div {
+  font-size: 22px;
+
+}
+
+.contentToolBar>div>div:last-child {
+  background: #fff;
+  padding: 0 3px 0 11px;
+  border-radius: 20px;
 }
 
 /* LogIn Page */
@@ -254,19 +294,21 @@ i.bi-x-circle {
   height: 20px;
 }
 
-.myFailedLogin{
+.myFailedLogin {
   animation: 3s infinite loginFailed;
   animation-timing-function: ease-in-out;
 }
 
 @keyframes loginFailed {
-  0%{
+  0% {
     transform: translate(0);
   }
-  50%{
+
+  50% {
     transform: translateY(3px);
   }
-  100%{
+
+  100% {
     transform: translate(0);
   }
 }
@@ -289,4 +331,10 @@ i.bi-x-circle {
   border-radius: 5px;
   border: 1px solid rgb(195, 195, 195);
   padding: 5px 10px
+}
+
+/* Author Card */
+
+.myAuthorCard {
+  border: 1px solid rgb(213, 213, 213)
 }

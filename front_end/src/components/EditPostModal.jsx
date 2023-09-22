@@ -45,14 +45,14 @@ const EditPostModal = ({ id }) => {
         setBase64Img(base64);
     };
     const convertBase64 = (file) => {
-        return new Promise((resolve, reject)=>{
+        return new Promise((resolve, reject) => {
             const fileReader = new FileReader();
             fileReader.readAsDataURL(file);
 
-            fileReader.onload = ()=>{
+            fileReader.onload = () => {
                 resolve(fileReader.result);
             };
-            fileReader.onerror = (error)=>{
+            fileReader.onerror = (error) => {
                 reject(error);
             }
         })
@@ -117,12 +117,12 @@ const EditPostModal = ({ id }) => {
             <div className='myEditModal position-fixed p-4 pt-0 bg-light rounded-2'>
 
                 <div className='pe-2 pb-2 position-fixed'>
-                    <i class="bi bi-x-lg position-relative text-danger" onClick={() => {dispatch(toogleOpenModal(false)); dispatch(clearCategories());}}></i>
+                    <i className="bi bi-x-lg position-relative text-danger" onClick={() => { dispatch(toogleOpenModal(false)); dispatch(clearCategories()); }}></i>
                 </div>
                 <form className='mt-4 pt-1' encType='multipart/form-data'>
                     <div className='mainImage mt-3'>
-                        <img className='mb-3 me-3 rounded-2 img-fluid' src={base64Img?base64Img:`${process.env.REACT_APP_SERVERBASE_URL}/uploads/${img}`} alt="img" />
-                        <input className='mb-2' type='file' onChange={(e) => {setFile(e.target.files[0]); uploadBase64(e); console.log(e.target.files[0]);}} />{/* accept, required */}
+                        <img className='mb-3 me-3 rounded-2 img-fluid' src={base64Img ? base64Img : `${process.env.REACT_APP_SERVERBASE_URL}/uploads/${img}`} alt="img" />
+                        <input className='mb-2' type='file' onChange={(e) => { setFile(e.target.files[0]); uploadBase64(e); console.log(e.target.files[0]); }} />{/* accept, required */}
                     </div>
                     <hr />
                     <InputGroup>
@@ -130,7 +130,7 @@ const EditPostModal = ({ id }) => {
                         <Form.Control maxLength={150} value={title} onChange={(e) => { setTitle(e.target.value) }} />
                     </InputGroup>
                     <div className='mb-3 charCounter d-flex align-items-center'>
-                        <i class="bi bi-fonts"></i>
+                        <i className="bi bi-fonts"></i>
                         <i>{title.length + "/150 characters"}</i>
                     </div>
                     <InputGroup>
@@ -138,40 +138,40 @@ const EditPostModal = ({ id }) => {
                         <Form.Control maxLength={1000} value={subtitle} onChange={(e) => { setSubtitle(e.target.value) }} />
                     </InputGroup>
                     <div className='mb-3 charCounter d-flex align-items-center'>
-                        <i class="bi bi-fonts"></i>
+                        <i className="bi bi-fonts"></i>
                         <i>{subtitle.length + "/1000 characters"}</i>
                     </div>
                     <div className='d-flex align-items-center mb-3'>
                         <DropdownButton align="start" title="Category" id="dropdown-menu-align-end" variant="info">
-                            <Dropdown.Item eventKey="1" onClick={() => dispatch(addCategory("cardiology"))}><i class="bi bi-activity"></i>Cardiology</Dropdown.Item>
-                            <Dropdown.Item eventKey="2" onClick={() => dispatch(addCategory("immunology"))}><i class="bi bi-shield-fill-exclamation"></i>Immunology</Dropdown.Item>
-                            <Dropdown.Item eventKey="3" onClick={() => dispatch(addCategory("pediatrics"))}><i class="bi bi-bandaid-fill"></i>Pediatrics</Dropdown.Item>
-                            <Dropdown.Item eventKey="4" onClick={() => dispatch(addCategory("radiology"))}><i class="bi bi-radioactive"></i>Radiology</Dropdown.Item>
+                            <Dropdown.Item eventKey="1" onClick={() => dispatch(addCategory("cardiology"))}><i className="bi bi-activity"></i>Cardiology</Dropdown.Item>
+                            <Dropdown.Item eventKey="2" onClick={() => dispatch(addCategory("immunology"))}><i className="bi bi-shield-fill-exclamation"></i>Immunology</Dropdown.Item>
+                            <Dropdown.Item eventKey="3" onClick={() => dispatch(addCategory("pediatrics"))}><i className="bi bi-bandaid-fill"></i>Pediatrics</Dropdown.Item>
+                            <Dropdown.Item eventKey="4" onClick={() => dispatch(addCategory("radiology"))}><i className="bi bi-radioactive"></i>Radiology</Dropdown.Item>
                             {/* <Dropdown.Divider /> */}
-                            <Dropdown.Item eventKey="5" onClick={() => dispatch(addCategory("biotechnology"))}><i class="bi bi-fingerprint"></i>Biotechnology</Dropdown.Item>
-                            <Dropdown.Item eventKey="6" onClick={() => dispatch(addCategory("dietology"))}><i class="bi bi-basket2-fill"></i>Dietology</Dropdown.Item>
+                            <Dropdown.Item eventKey="5" onClick={() => dispatch(addCategory("biotechnology"))}><i className="bi bi-fingerprint"></i>Biotechnology</Dropdown.Item>
+                            <Dropdown.Item eventKey="6" onClick={() => dispatch(addCategory("dietology"))}><i className="bi bi-basket2-fill"></i>Dietology</Dropdown.Item>
                         </DropdownButton>
                         <div className='d-flex ms-3'>
                             {categories && categories.map((el) => {
-                               return <i key={nanoid()} className={`bi bi-${categoryIcons[el]}`}></i>
+                                return <i key={nanoid()} className={`bi bi-${categoryIcons[el]}`}></i>
                             })}
                             {
-                                categories.length > 0 ? <i class="bi bi-x-circle text-danger" onClick={() => dispatch(clearCategories())}> clear</i> : null
+                                categories.length > 0 ? <i className="bi bi-x-circle text-danger" onClick={() => dispatch(clearCategories())}> clear</i> : null
                             }
                         </div>
                     </div>
                     <InputGroup >
                         <InputGroup.Text id="inputGroup-sizing-default">Text</InputGroup.Text>
-                        <Form.Control maxLength={6000} as="textarea" rows={20} value={text} onChange={(e) => { setText(e.target.value); console.log(text); }} />
+                        <Form.Control maxLength={6000} as="textarea" rows={20} value={text} onChange={(e) => { setText(e.target.value) }} />
                     </InputGroup>
                     <div className='mb-3 charCounter d-flex align-items-center'>
-                        <i class="bi bi-fonts"></i>
+                        <i className="bi bi-fonts"></i>
                         <i>{text.length + "/6000 characters"}</i>
                     </div>
                     <div className='mb-4 d-flex justify-content-center'>
                         {isSending ?
                             <Button variant="primary" disabled><Spinner as="span" animation="grow" size="sm" role="status" aria-hidden="true" /> Loading... </Button>
-                            : <Button onClick={(e) => { submitForm(e); dispatch(clearCategories()); dispatch(toogleOpenModal(false)); window.location.reload() }}><i class="bi bi-check-circle-fill me-2"></i>Update</Button>}
+                            : <Button onClick={(e) => { submitForm(e); dispatch(clearCategories()); dispatch(toogleOpenModal(false)); window.location.reload() }}><i className="bi bi-check-circle-fill me-2"></i>Update</Button>}
                     </div>
                 </form>
 

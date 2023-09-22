@@ -9,13 +9,13 @@ const isValidAuthor = require("../middlewares/authorValidator");
 
 router.get("/authors", async (req, res) => {
 
-    const {page=1, pageSize=5} = req.query;
-    
+    const { page = 1, pageSize = 5 } = req.query;
+
     try {
         const myAuthor = await authorModel.find()
             .limit(pageSize)
-            .skip((page - 1)*pageSize)
-            .sort({name: 1});
+            .skip((page - 1) * pageSize)
+            .sort({ name: 1 });
 
         res.status(200).send({
             statusCode: 200,
@@ -58,7 +58,7 @@ router.get("/authors/:id", async (req, res) => {
 router.post("/authors", isValidAuthor, async (req, res) => {
 
     const salt = await bcrypt.genSalt(10);
-    const hashedPssw = await bcrypt.hash(req.body.password, salt)
+    const hashedPssw = await bcrypt.hash(req.body.password, salt);
 
     const newAuthor = new authorModel({
         name: req.body.name,
@@ -70,22 +70,29 @@ router.post("/authors", isValidAuthor, async (req, res) => {
         authorImg: req.body.authorImg,
         role: req.body.role//metodo lungo e schematico di fornire il payload
         /* ...req.body  *///metodo ousseynou
-    })
+    });
 
-    try {
-        const myNewAuthor = await newAuthor.save();
-
-        res.status(201).send({
-            statusCode: 201,
-            message: "Post aggiunto con successo",
-            payload: myNewAuthor,
-        })
-
-    } catch (error) {
-        res.status(500).send({
-            statusCode: 500,
-            message: "errore nella chiamata post",
-            error,
+    const isAlreadyExists = await authorModel.findOne({ email: req.body.email });
+    console.log(isAlreadyExists, req.body.email, "author.js");
+    if (!isAlreadyExists) {
+        try {
+            const myNewAuthor = await newAuthor.save();
+            res.status(201).send({
+                statusCode: 201,
+                message: "Post aggiunto con successo",
+                payload: myNewAuthor,
+            })
+        } catch (error) {
+            res.status(500).send({
+                statusCode: 500,
+                message: "errore nella chiamata post",
+                error,
+            })
+        }
+    } else {
+        return res.status(200).send({
+            statusCode: 200,
+            message: "Email already exists. Try with another mail address!",
         })
     }
 });
@@ -128,7 +135,7 @@ router.put("/author/:id", async (req, res) => {
     const { id } = req.params;
     const authorExists = authorModel.findById(id);
 
-    if(!authorExists){
+    if (!authorExists) {
         return res.status(404).send({
             statusCode: 404,
             message: "Autore non trovato!"

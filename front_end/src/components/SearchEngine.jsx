@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { filterPosts, updateSearchKey } from "../states/postStates";
-import Mark from "mark.js";
-import { nanoid } from '@reduxjs/toolkit';
-import Card from 'react-bootstrap/Card';
+import { filterPosts, updateSearchKey, getAllPostsFunc } from "../states/postStates";
 
 
 const SearchEngine = () => {
@@ -23,10 +20,13 @@ const SearchEngine = () => {
 
     const handleSearch = (e) => {
         setSearchKey(e.target.value);
-        console.log(allPosts);
         const filteredPosts = allPosts.filter((item) => searchAssets(item));
-        console.log(filteredPosts);
-        return dispatch(filterPosts(filteredPosts));
+        if(e.target.value === ""){
+            return dispatch(getAllPostsFunc(1));
+        }else{
+            return dispatch(filterPosts(filteredPosts));
+        }
+        
     };
 
     return (

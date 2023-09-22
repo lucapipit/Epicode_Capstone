@@ -52,7 +52,7 @@ const NavigationBar = () => {
                             {
                                 userFullName ?
                                     <div className="d-flex align-items-center">
-                                        <i>{userFullName.displayName ? userFullName.displayName : userFullName.name + " " + userFullName.surname}</i>
+                                        <i className='truncate-md'>{userFullName.displayName ? userFullName.displayName : userFullName.name + " " + userFullName.surname}</i>
                                         <div className='myAuthorImg-sm' style={{ backgroundImage: `url(${userFullName.authorImg})` }} onClick={() => { setIsopen(!isOpen); setMenuOpen(false) }}></div>
                                     </div> :
                                     <div className="d-flex align-items-center">
@@ -61,8 +61,8 @@ const NavigationBar = () => {
                                     </div>
                             }
                         </div>
-                        <div>
-                            <i class="bi bi-grid-fill ms-3" onClick={() => { setIsopen(false); setMenuOpen(!menuOpen) }}></i>
+                        <div>{/* bi-columns-gap */}
+                            <i className={`bi ${menuOpen?"bi-x-lg text-danger":"bi-grid-fill text-secondary"} ms-3`} onClick={() => { setIsopen(false); setMenuOpen(!menuOpen) }}></i>
                         </div>
                     </div>
 

@@ -89,8 +89,11 @@ const AddPostForm = () => {
             setText("");
             dispatch(clearCategories());
             setFile(null)
-        }, 2000)
+        }, 500);
 
+        setTimeout(() => {
+            window.location.replace('http://localhost:3000/')
+        }, 2000);
     }
 
     useEffect(() => {
@@ -102,36 +105,36 @@ const AddPostForm = () => {
             <form encType='multipart/form-data'>
                 <InputGroup >
                     <InputGroup.Text id="inputGroup-sizing-default">Title</InputGroup.Text>
-                    <Form.Control maxLength={150} onChange={(e) => setTitle(e.target.value)} />
+                    <Form.Control maxLength={150} value={title} onChange={(e) => setTitle(e.target.value)} />
                 </InputGroup>
                 <div className='mb-3 charCounter d-flex align-items-center'>
-                    <i class="bi bi-fonts"></i>
+                    <i className="bi bi-fonts"></i>
                     <i>{title.length + "/150 characters"}</i>
                 </div>
                 <InputGroup >
                     <InputGroup.Text id="inputGroup-sizing-default">Subtitle</InputGroup.Text>
-                    <Form.Control maxLength={500} onChange={(e) => setSubtitle(e.target.value)} />
+                    <Form.Control maxLength={700} value={subtitle} onChange={(e) => setSubtitle(e.target.value)} />
                 </InputGroup>
                 <div className='mb-3 charCounter d-flex align-items-center'>
-                    <i class="bi bi-fonts"></i>
-                    <i>{subtitle.length + "/500 characters"}</i>
+                    <i className="bi bi-fonts"></i>
+                    <i>{subtitle.length + "/700 characters"}</i>
                 </div>
                 <div className='d-flex align-items-center mb-3'>
                     <DropdownButton align="start" title="Category" id="dropdown-menu-align-end" variant="info">
-                        <Dropdown.Item eventKey="1" onClick={() => dispatch(addCategory("cardiology"))}><i class="bi bi-activity"></i>Cardiology</Dropdown.Item>
-                        <Dropdown.Item eventKey="2" onClick={() => dispatch(addCategory("immunology"))}><i class="bi bi-shield-fill-exclamation"></i>Immunology</Dropdown.Item>
-                        <Dropdown.Item eventKey="3" onClick={() => dispatch(addCategory("pediatrics"))}><i class="bi bi-bandaid-fill"></i>Pediatrics</Dropdown.Item>
-                        <Dropdown.Item eventKey="4" onClick={() => dispatch(addCategory("radiology"))}><i class="bi bi-radioactive"></i>Radiology</Dropdown.Item>
+                        <Dropdown.Item eventKey="1" onClick={() => dispatch(addCategory("cardiology"))}><i className="bi bi-activity"></i>Cardiology</Dropdown.Item>
+                        <Dropdown.Item eventKey="2" onClick={() => dispatch(addCategory("immunology"))}><i className="bi bi-shield-fill-exclamation"></i>Immunology</Dropdown.Item>
+                        <Dropdown.Item eventKey="3" onClick={() => dispatch(addCategory("pediatrics"))}><i className="bi bi-bandaid-fill"></i>Pediatrics</Dropdown.Item>
+                        <Dropdown.Item eventKey="4" onClick={() => dispatch(addCategory("radiology"))}><i className="bi bi-radioactive"></i>Radiology</Dropdown.Item>
                         <Dropdown.Divider />
-                        <Dropdown.Item eventKey="5" onClick={() => dispatch(addCategory("biotechnology"))}><i class="bi bi-fingerprint"></i>Biotechnology</Dropdown.Item>
-                        <Dropdown.Item eventKey="6" onClick={() => dispatch(addCategory("dietology"))}><i class="bi bi-basket2-fill"></i>Dietology</Dropdown.Item>
+                        <Dropdown.Item eventKey="5" onClick={() => dispatch(addCategory("biotechnology"))}><i className="bi bi-fingerprint"></i>Biotechnology</Dropdown.Item>
+                        <Dropdown.Item eventKey="6" onClick={() => dispatch(addCategory("dietology"))}><i className="bi bi-basket2-fill"></i>Dietology</Dropdown.Item>
                     </DropdownButton>
                     <div className='d-flex ms-3'>
                         {categories.map((el) => {
                             return <i key={nanoid()} className={`bi bi-${categoryIcons[el]}`}></i>
                         })}
                         {
-                            categories.length > 0 ? <i class="bi bi-x-circle text-danger" onClick={() => dispatch(clearCategories())}> clear</i> : null
+                            categories.length > 0 ? <i className="bi bi-x-circle text-danger" onClick={() => dispatch(clearCategories())}> clear</i> : null
                         }
                     </div>
                 </div>
@@ -139,16 +142,16 @@ const AddPostForm = () => {
                 <input className='mb-3' type='file' onChange={(e) => setFile(e.target.files[0])} />{/* accept, required */}
                 <InputGroup >
                     <InputGroup.Text id="inputGroup-sizing-default">Text</InputGroup.Text>
-                    <Form.Control maxLength={6000} as="textarea" rows={5} onChange={(e) => setText(e.target.value)} />
+                    <Form.Control maxLength={6000} value={text} as="textarea" rows={5} onChange={(e) => setText(e.target.value)} />
                 </InputGroup>
                 <div className='mb-3 charCounter d-flex align-items-center'>
-                    <i class="bi bi-fonts"></i>
+                    <i className="bi bi-fonts"></i>
                     <i>{text.length + "/6000 characters"}</i>
                 </div>
                 <div className=' d-flex justify-content-center mb-5'>
                     {isSending ?
                         <Button variant="primary" disabled><Spinner as="span" animation="grow" size="sm" role="status" aria-hidden="true" /> Loading... </Button>
-                        : <Button onClick={(e) => { submitForm(e); resetForm(); console.log("FUZIONOOO"); }}><i class="bi bi-send-fill me-2"></i>Publish</Button>}
+                        : <Button onClick={(e) => { submitForm(e); resetForm() }}><i className="bi bi-send-fill me-2"></i>Publish</Button>}
                 </div>
             </form>
 

@@ -3,10 +3,34 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 const initialState = {
     //add post
     categories: [],
+    currentPage: 1,
     //view posts
     allPosts: [],
     filteredPosts: [],
-    singlePost: {},
+    singlePost: {
+        singlePost: {
+            _id: "650977cd4d49c196c3870edf",
+            title: "loading...",
+            subtitle: "loading...",
+            text: "loading...",
+            img: "d09580ff-77e0-4749-9702-ff6dec118f8b.jpg",
+            author: {
+                _id: "64e75c8f1ea601a7a0eac5da",
+                name: "Luca Maria",
+                surname: "Pipitone",
+                email: "pipitonelucamaria@gmail.com",
+                password: "$2b$10$xEYI3rgRyalL28i8J/Re..V/gLE3bIjmVwlW/JYsE40cgZErsaOz2",
+                dob: "2023-08-24",
+                avatar: "Luca Maria Pipitone",
+                authorImg: "https://lh3.googleusercontent.com/a/AAcHTtdXxvCG3jIEu4vcEE07jz5fk0DVjs5DvSQJnvJ5I9q6=s96-c",
+                createdAt: "2023-08-24T13:35:11.584Z",
+                updatedAt: "2023-08-24T13:35:11.584Z",
+                __v: 0
+            }
+        }
+    },
+    pageSize: 6,
+    numberOfPages: null,
     isLoading: false,
     error: "",
     selectedTags: [],
@@ -18,10 +42,11 @@ const initialState = {
 
 const getAllPostsFunc = createAsyncThunk(//GET ALL POSTS
     "getAllPosts/fetchGetAllPosts",
-    async () => {
+    async (input) => {
+        const apiUrl = `${process.env.REACT_APP_SERVERBASE_URL}/posts`;
         try {
 
-            const response = await fetch(`${process.env.REACT_APP_SERVERBASE_URL}/posts`, {
+            const response = await fetch(!input ? apiUrl : apiUrl + `?page=${input.toString()}`, {
                 method: "GET",
                 headers: { "Authorization": "Bearer " + localStorage.getItem("loginData") }
             });
@@ -93,11 +118,15 @@ const postSlice = createSlice({
             state.selectedTags = action.payload
         },
         filterPosts: (state, action) => {
+            state.numberOfPages = action.payload.length / state.pageSize;
             state.filteredPosts = action.payload
         },
         updateSearchKey: (state, action) => {
             state.markSearchKey = action.payload
-        }
+        },
+        setCurrentPage: (state, action) => {
+            state.currentPage = action.payload;
+        },
     },
     extraReducers: (builder) => {
         /* GET ALL POSTS */
@@ -107,7 +136,9 @@ const postSlice = createSlice({
         builder.addCase(getAllPostsFunc.fulfilled, (state, action) => {
             state.isLoading = false;
             state.allPosts = action.payload.payload;//viene riempito all'avvio dell'applicazione e rimane tale anche in seguito alle operazioni di ricerca
-            state.filteredPosts = action.payload.payload//viene riempito all'avvio dell'applicazione e viene modificato in seguito alle operazioni di ricerca --> reducer: filteredPosts
+            state.filteredPosts = action.payload.payloadPaged;//viene riempito all'avvio dell'applicazione e viene modificato in seguito alle operazioni di ricerca --> reducer: filteredPosts
+            state.pageSize = action.payload.pageSize;
+            state.numberOfPages = action.payload.postsCount / state.pageSize
         });
         builder.addCase(getAllPostsFunc.rejected, (state, action) => {
             state.isLoading = false;
@@ -133,7 +164,7 @@ const postSlice = createSlice({
         });
         builder.addCase(getPostByCategoryFunc.fulfilled, (state, action) => {
             state.isLoading = false;
-            state.allPosts = action.payload.payload
+            state.filteredPosts = action.payload.payload
         });
         builder.addCase(getPostByCategoryFunc.rejected, (state, action) => {
             state.isLoading = false;
@@ -143,6 +174,6 @@ const postSlice = createSlice({
     }
 });
 
-export const { addCategory, clearCategories, toogleOpenModal, selectTags, filterPosts, updateSearchKey } = postSlice.actions;
+export const { addCategory, clearCategories, toogleOpenModal, selectTags, filterPosts, updateSearchKey, setCurrentPage } = postSlice.actions;
 export default postSlice.reducer;
 export { getAllPostsFunc, getPostByIdFunc, getPostByCategoryFunc }

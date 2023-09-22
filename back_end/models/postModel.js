@@ -22,6 +22,13 @@ const postModel = new mongoose.Schema({
         ref: "Author",
         required: true
     },
+    reviews: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Review",
+            required: false
+        }
+    ],
     comments: [
         {
             type: mongoose.Schema.Types.ObjectId,
@@ -34,7 +41,26 @@ const postModel = new mongoose.Schema({
             type: String,
             required: false
         }
-    ]
+    ],
+    rating: {
+        totalRate: {
+            type: Number,
+            required: false
+        },
+        views: {
+            type: Number,
+            required: false
+        },
+        nReviews: {
+            type: Number,
+            required: false
+        },
+        totalLength: {
+            type: Number,
+            required: false
+        }
+
+    }
 
 }, { timestamps: true, strict: true });
 
