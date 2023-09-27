@@ -31,7 +31,6 @@ const SinglePost = () => {
                     reviews={singlePost.reviews}
                 />}
             </MainLayout>
-            <h1>ciao</h1>
         </>
     )
 }

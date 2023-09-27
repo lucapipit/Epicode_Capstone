@@ -13,11 +13,29 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import { Button } from 'react-bootstrap';
 import feather from "../assets/feather.svg";
 import { useNavigate } from 'react-router';
+import jwtDecode from 'jwt-decode';
+import { saveAuthor_id } from '../states/authorState';
 
 const PostDetail = ({ id, title, subtitle, img, text, authorObj, createdAt, updatedAt, category, reviews }) => {//authorObj è l'autore del post
-    
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    //user name & surname
+    const [userFullName, setUserFullName] = useState(null);
+    const getUserData = () => {
+        const token = localStorage.getItem("loginData");
+        if (token) {
+            try {
+                const userData = jwtDecode(token, process.env.JWT_SECRET);
+                setUserFullName(userData);
+                dispatch(saveAuthor_id(userData));
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        return
+    };
 
     const isEditModalOpen = useSelector((state) => state.posts.isModalOpen);
     const userAuthorId = useSelector((state) => state.authors.author_id);//autore loggato
@@ -92,10 +110,13 @@ const PostDetail = ({ id, title, subtitle, img, text, authorObj, createdAt, upda
 
     useEffect(() => {
         if (reviewId) {
-
             populatePostWithReviews(id)
         }
-    }, [reviewId])
+    }, [reviewId]);
+
+    useEffect(() => {
+        getUserData()
+    }, [])
 
     return (
         <>
@@ -127,8 +148,8 @@ const PostDetail = ({ id, title, subtitle, img, text, authorObj, createdAt, upda
                                     </span>
                                     :
                                     <span className='modifyPostSymbol mt-1 d-flex justify-content-end align-items-center'>
-                                        <div className='mb-1 me-3 d-flex align-items-center justify-content-end'><i className='ms-2 text-dark truncate-sm'>{authorObj.name} {authorObj.surname}</i><div className='myAuthorImg-sm' style={{ backgroundImage: `url(${authorObj.authorImg})`}}></div></div>
-                                        <a href="#review"><img src={feather} alt="svg" style={{height: "26px"}} /></a>
+                                        <div className='mb-1 me-3 d-flex align-items-center justify-content-end'><i className='ms-2 text-dark truncate-sm'>{authorObj.name} {authorObj.surname}</i><div className='myAuthorImg-sm' style={{ backgroundImage: `url(${authorObj.authorImg})` }}></div></div>
+                                        <a href="#review"><img src={feather} alt="svg" style={{ height: "26px" }} /></a>
                                     </span>)
                                 : null
                         }
@@ -153,7 +174,7 @@ const PostDetail = ({ id, title, subtitle, img, text, authorObj, createdAt, upda
                             reviews && reviews.map((el) => {
                                 return (
                                     <div>
-                                        <div className='mb-1 d-flex align-items-center justify-content-end'><img src={feather} alt="svg" style={{height: "22px"}} /><i className='ms-2 text-dark'>{el.author.name} {el.author.surname}</i><div className='myAuthorImg-sm' style={{ backgroundImage: `url(${el.author.authorImg})`}}></div></div>
+                                        <div className='mb-1 d-flex align-items-center justify-content-end'><img src={feather} alt="svg" style={{ height: "22px" }} /><i className='ms-2 text-dark'>{el.author.name} {el.author.surname}</i><div className='myAuthorImg-sm' style={{ backgroundImage: `url(${el.author.authorImg})` }}></div></div>
                                         <h1 className='p-3 mt-1 ms-4'>{el.title}</h1>
                                         <div className="myBody px-4">
                                             <p>{el.subtitle}</p>
@@ -166,22 +187,27 @@ const PostDetail = ({ id, title, subtitle, img, text, authorObj, createdAt, upda
                             })
                         }
 
+                        {
+                            userFullName ?
+                                <div>
+                                    <h2 className='fw-light mt-5' id='review'><i className='bi bi-blockquote-left text-success'> Submit a review and wait for the author to accept</i></h2>
 
-                        <h2 className='fw-light mt-5' id='review'><i className='bi bi-blockquote-left text-success'> Submit a review and wait for the author to accept</i></h2>
-
-                        <InputGroup className='mt-3'>
-                            <InputGroup.Text id="inputGroup-sizing-default">Title</InputGroup.Text>
-                            <Form.Control maxLength={150} value={reviewTitle} onChange={(e) => { setReviewTitle(e.target.value) }} />
-                        </InputGroup>
-                        <InputGroup className='mt-3' >
-                            <InputGroup.Text id="inputGroup-sizing-default">Text</InputGroup.Text>
-                            <Form.Control maxLength={6000} as="textarea" rows={20} value={reviewText} onChange={(e) => { setReviewText(e.target.value) }} />
-                        </InputGroup>
-                        <div className='mb-3 charCounter d-flex align-items-center'>
-                            <i className="bi bi-fonts"></i>
-                            <i>{reviewText.length + "/6000 characters"}</i>
-                        </div>
-                        <Button className='mb-5' onClick={() => { submitReview(); resetForm() }}><i className="bi bi-send-fill me-2"></i>Submit</Button>
+                                    <InputGroup className='mt-3'>
+                                        <InputGroup.Text id="inputGroup-sizing-default">Title</InputGroup.Text>
+                                        <Form.Control maxLength={150} value={reviewTitle} onChange={(e) => { setReviewTitle(e.target.value) }} />
+                                    </InputGroup>
+                                    <InputGroup className='mt-3' >
+                                        <InputGroup.Text id="inputGroup-sizing-default">Text</InputGroup.Text>
+                                        <Form.Control maxLength={6000} as="textarea" rows={20} value={reviewText} onChange={(e) => { setReviewText(e.target.value) }} />
+                                    </InputGroup>
+                                    <div className='mb-3 charCounter d-flex align-items-center'>
+                                        <i className="bi bi-fonts"></i>
+                                        <i>{reviewText.length + "/6000 characters"}</i>
+                                    </div>
+                                    <Button className='mb-5' onClick={() => { submitReview(); resetForm() }}><i className="bi bi-send-fill me-2"></i>Submit</Button>
+                                </div> :
+                                null
+                        }
                     </Col>
                 </Row>
             </Container>
