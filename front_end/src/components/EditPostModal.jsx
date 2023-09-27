@@ -22,10 +22,10 @@ const EditPostModal = ({ id }) => {
     const [isSending, setIsSending] = useState(false);/* da verificare se si può eliminare */
 
     /* input form values */
-    const img = singlePost.img;
-    const [title, setTitle] = useState(singlePost.title);
-    const [subtitle, setSubtitle] = useState(singlePost.subtitle);
-    const [text, setText] = useState(singlePost.text);
+    const img = singlePost.singlePost.img;
+    const [title, setTitle] = useState(singlePost.singlePost.title);
+    const [subtitle, setSubtitle] = useState(singlePost.singlePost.subtitle);
+    const [text, setText] = useState(singlePost.singlePost.text);
 
     //category variable obj
     const categoryIcons = {
