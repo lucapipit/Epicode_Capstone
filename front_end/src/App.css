@@ -340,3 +340,6 @@ i.bi-x-circle {
 }
 
 
+.row{
+  --bs-gutter-x: 0rem !important;
+}
